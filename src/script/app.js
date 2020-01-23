@@ -4,11 +4,6 @@ let sinField = $("#sinField");
 //verify once button has been clicked
 verify.click(() => {
 
-    //no value error
-    if (!sinField[0].value){
-        console.error('Enter a value.');
-        return;
-    }
     console.log(verifySIN(sinField[0].value));
 
 })
@@ -17,14 +12,8 @@ verify.click(() => {
 //verify using enter key
 sinField.keypress((e) => {
 
-    if(e.which === 13){
-        //no value error
-        if (!sinField[0].value){
-            console.error('Enter a value.');
-            return;        
-        }
+    if(e.which === 13)
         console.log(verifySIN(sinField[0].value));
-    }
 
 })
 
@@ -63,8 +52,19 @@ function verifySIN(input){
     }, 0);
 
     //verify if valid or not
-    if (sum % 10 === 0)
+    if (!input || (sum % 10 != 0)){
+        sinField.addClass("errorBorder");
+        setTimeout(() => {
+            sinField.removeClass("errorBorder");
+        }, 400);
+        return false;
+    }
+
+    if (sum % 10 === 0){
+        sinField.addClass("successBorder");
+        setTimeout(() => {
+            sinField.removeClass("successBorder");
+        }, 400);
         return true;
-    
-    return false;
+    }
 }
